@@ -8,6 +8,8 @@ export default function Protected({ children, authentication = true }) {
     const [loader, setLoader] = useState(true)
     const authStatus = useSelector(state => state.auth.status)
 
+    
+
     useEffect(() => {
 
         if (authentication && authStatus !== authentication) {

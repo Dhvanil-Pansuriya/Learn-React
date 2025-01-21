@@ -16,7 +16,10 @@ const PostForm = ({ post }) => {
   });
 
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.user.userData)
+  const userData = useSelector((state) => state.auth.userData)
+  // const authStatus = useSelector((state) => state.auth.userData)
+
+
 
   const submit = async (data) => {
 
@@ -65,12 +68,12 @@ const PostForm = ({ post }) => {
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (name === "title") {
-        setValue("slug", slugTransform(value.title), { shouldValidate: true });
+        setValue("slug", slugTransformation(value.title), { shouldValidate: true });
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [watch, slugTransform, setValue]);
+  }, [watch, slugTransformation, setValue]);
 
 
   return (
