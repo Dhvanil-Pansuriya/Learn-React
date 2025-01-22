@@ -89,6 +89,7 @@ export class Service {
       );
     } catch (error) {
       console.log("Service :: getPosts :: Error ", error);
+      throw error
       return false;
     }
   }

@@ -16,17 +16,19 @@ const Login = () => {
 
     const login = async (data) => {
         try {
-            setLoading(true); // Show a loader
-            const session = await authService.login(data); // Pass form data
+            setLoading(true);
+            const session = await authService.login(data);
             if (session) {
                 const userData = await authService.getCurrentUser();
-                if (userData) dispatch(authLogin(userData)); // Dispatch user data to the Redux store
-                navigate('/'); // Navigate to the home page
+                if (userData) {
+                    dispatch(authLogin(userData))
+                };
+                navigate('/all-posts');
             }
         } catch (error) {
-            setError(error.message); // Show error message to the user
+            setError(error.message);
         } finally {
-            setLoading(false); // Hide loader
+            setLoading(false);
         }
     };
 

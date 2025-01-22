@@ -15,16 +15,15 @@ export class AuthService {
 
   async accountCreate({ name, email, password }) {
     try {
-      
       const userAccount = await this.account.create(
         ID.unique(),
-        name,
         email,
-        password
+        password,
+        name
       );
+
       if (userAccount) {
-        console.log(name, email, password);
-        return this.login({ email, password });
+        return await this.login({ email, password });
       } else {
         return userAccount;
       }
@@ -52,7 +51,7 @@ export class AuthService {
 
   async logout() {
     try {
-      return await this.account.deleteSessions();
+      await this.account.deleteSession("current");
     } catch (error) {
       console.log("AuthService :: logout :: Error ", error);
     }

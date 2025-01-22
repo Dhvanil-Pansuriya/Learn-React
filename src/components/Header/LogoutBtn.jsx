@@ -1,19 +1,34 @@
 import React from "react";
-import { useDispatch } from 'react-redux'
-import authService from "../../appwrite/auth"
-import { logout } from "../../store/authSlice"
+import { useDispatch } from "react-redux";
+import authService from "../../appwrite/auth";
+import { logout } from "../../store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const LogoutBtn = () => {
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const logoutHandler = () => {
-        authService.logout().then().catch(() => {
-            dispatch(logout())
-        }
-        )
+  const logoutHandler = async () => {
+    try {
+      // Await the logout process
+      await authService.logout();
+      dispatch(logout()); // Clear the user state
+      navigate("/"); // Redirect after logout
+    } catch (error) {
+      console.log("LogoutBtn :: Error ", error);
+      dispatch(logout()); // Clear the user state even if logout fails
+      navigate("/"); // Redirect after attempting logout
     }
+  };
 
-    return <button onClick={logoutHandler} className="inline-block px-6 py-2 duration-200 hover:bg-blue-100 rounded-full">LogoutBtn</button>;
+  return (
+    <button
+      onClick={logoutHandler}
+      className="inline-block px-6 py-2 bg-transparent text-white rounded-full border-2 border-white hover:bg-gray-700 duration-200"
+    >
+      Logout
+    </button>
+  );
 };
 
 export default LogoutBtn;

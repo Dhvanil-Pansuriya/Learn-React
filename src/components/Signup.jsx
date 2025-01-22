@@ -13,18 +13,24 @@ function Signup() {
     const { register, handleSubmit } = useForm()
 
     const create = async (data) => {
-        setError("")
+        setError("");
         try {
-            const userData = await authService.accountCreate(data)
+
+            const userData = await authService.accountCreate(data);
+
             if (userData) {
-                const userData = await authService.getCurrentUser()
-                if (userData) dispatch(login(userData));
-                navigate("/")
+                const currentUser = await authService.getCurrentUser();
+                if (currentUser) {
+                    dispatch(login(currentUser));
+                    navigate("/all-posts");
+                }
             }
         } catch (error) {
-            setError(error.message)
+            console.log("error : ", error);
+            setError(error.message || "Failed to create an account");
         }
-    }
+    };
+
 
     return (
         <div className="flex items-center justify-center">
